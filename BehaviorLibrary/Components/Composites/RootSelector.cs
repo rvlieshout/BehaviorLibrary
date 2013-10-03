@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BehaviorLibrary.Components.Composites
 {
-    public class RootSelector : Selector
+    public class RootSelector : PartialSelector
     {
 
         private BehaviorComponent[] rs_Behaviors;
