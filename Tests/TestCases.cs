@@ -60,7 +60,11 @@ namespace Tests
 			bool first = true;
 
 			var foo = new StatefulSequence (new BehaviorAction(delegate(){
-				return BehaviorReturnCode.Success;
+				if(first){
+					return BehaviorReturnCode.Success;
+				}else{
+					return BehaviorReturnCode.Failure;
+				}
 			}),new BehaviorAction( delegate(){
 				if(first){
 					first = false;
@@ -74,13 +78,14 @@ namespace Tests
 
 			new VerificationPoint ().VerifyEquals ("1st running", true, foo.Behave (), BehaviorReturnCode.Running);
 			new VerificationPoint ().VerifyEquals ("2nd success", true, foo.Behave (), BehaviorReturnCode.Success);
-			new VerificationPoint ().VerifyEquals ("3rd success", true, foo.Behave (), BehaviorReturnCode.Success);
+			new VerificationPoint ().VerifyEquals ("3rd failure", true, foo.Behave (), BehaviorReturnCode.Failure);
 
 			log.logMessage ("restting first");
 			first = true;
 
 			new VerificationPoint ().VerifyEquals ("after reset running", true, foo.Behave (), BehaviorReturnCode.Running);
 			new VerificationPoint ().VerifyEquals ("final success", true, foo.Behave (), BehaviorReturnCode.Success);
+			new VerificationPoint ().VerifyEquals ("final failure", true, foo.Behave (), BehaviorReturnCode.Failure);
 
 			log.exitScope ();
 		}
@@ -90,7 +95,7 @@ namespace Tests
 			log.enterScope("testStatefulSel");
 
 			bool first = true;
-
+			bool second = true;
 			var foo = new StatefulSelector (new BehaviorAction (delegate(){
 				return BehaviorReturnCode.Failure;
 			}), new BehaviorAction (delegate() {
@@ -101,18 +106,29 @@ namespace Tests
 					return BehaviorReturnCode.Failure;
 				}
 			}), new BehaviorAction (delegate(){
-				return BehaviorReturnCode.Success;
+				if(first){
+					return BehaviorReturnCode.Success;
+				}else{
+					if(second){
+						second = false;
+						return BehaviorReturnCode.Success;
+					}else{
+						return BehaviorReturnCode.Failure;
+					}
+				}
 			}));
 
 			new VerificationPoint ().VerifyEquals ("1st running", true, foo.Behave (), BehaviorReturnCode.Running);
 			new VerificationPoint ().VerifyEquals ("2nd success", true, foo.Behave (), BehaviorReturnCode.Success);
-			new VerificationPoint ().VerifyEquals ("3rd success", true, foo.Behave (), BehaviorReturnCode.Success);
+			new VerificationPoint ().VerifyEquals ("3rd failure", true, foo.Behave (), BehaviorReturnCode.Failure);
 
-			log.logMessage ("restting first");
+			log.logMessage ("restting flags");
 			first = true;
+			second = true;
 
 			new VerificationPoint ().VerifyEquals ("after reset running", true, foo.Behave (), BehaviorReturnCode.Running);
 			new VerificationPoint ().VerifyEquals ("final success", true, foo.Behave (), BehaviorReturnCode.Success);
+			new VerificationPoint ().VerifyEquals ("final failure", true, foo.Behave (), BehaviorReturnCode.Failure);
 
 			log.exitScope ();
 		}
