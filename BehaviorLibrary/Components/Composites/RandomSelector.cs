@@ -8,10 +8,10 @@ namespace BehaviorLibrary.Components.Composites
     public class RandomSelector : BehaviorComponent
     {
 
-        private BehaviorComponent[] r_Behaviors;
+        private BehaviorComponent[] _Behaviors;
 
         //use current milliseconds to set random seed
-        private Random r_Random = new Random(DateTime.Now.Millisecond);
+        private Random _Random = new Random(DateTime.Now.Millisecond);
 
         /// <summary>
         /// Randomly selects and performs one of the passed behaviors
@@ -22,7 +22,7 @@ namespace BehaviorLibrary.Components.Composites
         /// <param name="behaviors">one to many behavior components</param>
         public RandomSelector(params BehaviorComponent[] behaviors) 
         {
-            r_Behaviors = behaviors;
+            _Behaviors = behaviors;
         }
 
         /// <summary>
@@ -31,11 +31,11 @@ namespace BehaviorLibrary.Components.Composites
         /// <returns>the behaviors return code</returns>
         public override BehaviorReturnCode Behave()
         {
-            r_Random = new Random(DateTime.Now.Millisecond);
+            _Random = new Random(DateTime.Now.Millisecond);
 
             try
             {
-                switch (r_Behaviors[r_Random.Next(0, r_Behaviors.Length - 1)].Behave())
+                switch (_Behaviors[_Random.Next(0, _Behaviors.Length - 1)].Behave())
                 {
                     case BehaviorReturnCode.Failure:
                         ReturnCode = BehaviorReturnCode.Failure;

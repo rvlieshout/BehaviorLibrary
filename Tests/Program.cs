@@ -32,6 +32,7 @@ namespace Tests
 			{
 				Tester tester = new Tester();
 				tester.registerTestCase(new TestCases());
+				tester.registerTestCase(new Issue2());
 				tester.initialize();
 				Console.Write(tester.getResults());
 			}

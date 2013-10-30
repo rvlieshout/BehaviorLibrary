@@ -8,18 +8,18 @@ namespace BehaviorLibrary.Components.Composites
     public class Sequence : BehaviorComponent
     {
 
-        private BehaviorComponent[] s_Behaviors;
+        private BehaviorComponent[] _behaviors;
 
         /// <summary>
         /// attempts to run the behaviors all in one cycle
         /// -Returns Success when all are successful
         /// -Returns Failure if one behavior fails or an error occurs
-        /// -Does not Return Running
+        /// -Returns Running if any are running
         /// </summary>
         /// <param name="behaviors"></param>
         public Sequence(params BehaviorComponent[] behaviors)
         {
-            s_Behaviors = behaviors;
+            _behaviors = behaviors;
         }
 
         /// <summary>
@@ -28,12 +28,14 @@ namespace BehaviorLibrary.Components.Composites
         /// <returns>the behaviors return code</returns>
         public override BehaviorReturnCode Behave()
         {
+			//add watch for any running behaviors
+			bool anyRunning = false;
 
-            for(int i = 0; i < s_Behaviors.Length;i++)
+            for(int i = 0; i < _behaviors.Length;i++)
             {
                 try
                 {
-                    switch (s_Behaviors[i].Behave())
+                    switch (_behaviors[i].Behave())
                     {
                         case BehaviorReturnCode.Failure:
                             ReturnCode = BehaviorReturnCode.Failure;
@@ -41,6 +43,7 @@ namespace BehaviorLibrary.Components.Composites
                         case BehaviorReturnCode.Success:
                             continue;
                         case BehaviorReturnCode.Running:
+							anyRunning = true;
                             continue;
                         default:
                             ReturnCode = BehaviorReturnCode.Success;
@@ -57,7 +60,8 @@ namespace BehaviorLibrary.Components.Composites
                 }
             }
 
-            ReturnCode = BehaviorReturnCode.Success;
+			//if none running, return success, otherwise return running
+            ReturnCode = !anyRunning ? BehaviorReturnCode.Success : BehaviorReturnCode.Running;
             return ReturnCode;
         }
 

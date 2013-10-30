@@ -8,20 +8,20 @@ namespace BehaviorLibrary.Components.Actions
     public class BehaviorAction : BehaviorComponent
     {
 
-        private Func<BehaviorReturnCode> ba_Action;
+        private Func<BehaviorReturnCode> _Action;
 
         public BehaviorAction() { }
 
         public BehaviorAction(Func<BehaviorReturnCode> action)
         {
-            ba_Action = action;
+            _Action = action;
         }
 
         public override BehaviorReturnCode Behave()
         {
             try
             {
-                switch (ba_Action.Invoke())
+                switch (_Action.Invoke())
                 {
                     case BehaviorReturnCode.Success:
                         ReturnCode = BehaviorReturnCode.Success;

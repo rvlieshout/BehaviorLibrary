@@ -5,9 +5,9 @@ namespace BehaviorLibrary
 {
 	public class StatefulSequence : BehaviorComponent
 	{
-		private BehaviorComponent[] s_Behaviors;
+		private BehaviorComponent[] _Behaviors;
 
-		private int s_LastBehavior = 0;
+		private int _LastBehavior = 0;
 
 		/// <summary>
 		/// attempts to run the behaviors all in one cycle (stateful on running)
@@ -17,7 +17,7 @@ namespace BehaviorLibrary
 		/// </summary>
 		/// <param name="behaviors"></param>
 		public StatefulSequence (params BehaviorComponent[] behaviors){
-			this.s_Behaviors = behaviors;
+			this._Behaviors = behaviors;
 		}
 
 		/// <summary>
@@ -27,11 +27,11 @@ namespace BehaviorLibrary
 		public override BehaviorReturnCode Behave(){
 
 			//start from last remembered position
-			for(; s_LastBehavior < s_Behaviors.Length;s_LastBehavior++){
+			for(; _LastBehavior < _Behaviors.Length;_LastBehavior++){
 				try{
-					switch (s_Behaviors[s_LastBehavior].Behave()){
+					switch (_Behaviors[_LastBehavior].Behave()){
 					case BehaviorReturnCode.Failure:
-						s_LastBehavior = 0;
+						_LastBehavior = 0;
 						ReturnCode = BehaviorReturnCode.Failure;
 						return ReturnCode;
 					case BehaviorReturnCode.Success:
@@ -40,7 +40,7 @@ namespace BehaviorLibrary
 						ReturnCode = BehaviorReturnCode.Running;
 						return ReturnCode;
 					default:
-						s_LastBehavior = 0;
+						_LastBehavior = 0;
 						ReturnCode = BehaviorReturnCode.Success;
 						return ReturnCode;
 					}
@@ -49,13 +49,13 @@ namespace BehaviorLibrary
 #if DEBUG
 					Console.Error.WriteLine(e.ToString());
 #endif
-					s_LastBehavior = 0;
+					_LastBehavior = 0;
 					ReturnCode = BehaviorReturnCode.Failure;
 					return ReturnCode;
 				}
 			}
 
-			s_LastBehavior = 0;
+			_LastBehavior = 0;
 			ReturnCode = BehaviorReturnCode.Success;
 			return ReturnCode;
 		}

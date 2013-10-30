@@ -31,31 +31,31 @@ namespace Tests
 	{
 		public TestCases (){}
 
-		private CSLogger log = CSLogger.Instance;
+		private CSLogger _log = CSLogger.Instance;
 
 		[BuildUp]
 		public void buildup(){
-			log.setEnableLogging (true);
-			log.setEnableDebug (true);
-			log.setEnableError (true);
-			log.setEnableMessage (true);
-			log.loadLog("","behaviorLibrary.log");
-			log.enterScope ("TestCases");
-			log.logMessage ("----------------- STARTING BEHAVIOR LIBRARY TESTS -----------------");
+			_log.setEnableLogging (true);
+			_log.setEnableDebug (true);
+			_log.setEnableError (true);
+			_log.setEnableMessage (true);
+			_log.loadLog("","behaviorLibrary.log");
+			_log.enterScope ("TestCases");
+			_log.logMessage ("----------------- STARTING BEHAVIOR LIBRARY TESTS -----------------");
 		}
 
 		[TearDown]
 		public void teardown(){
-			log.enterScope("teardown");
-			log.exitScope ();
-			log.logMessage ("----------------- ENDING BEHAVIOR LIBRARY TESTS -----------------");
-			log.exitScope ();
-			log.closeLog ();
+			_log.enterScope("teardown");
+			_log.exitScope ();
+			_log.logMessage ("----------------- ENDING BEHAVIOR LIBRARY TESTS -----------------");
+			_log.exitScope ();
+			_log.closeLog ();
 		}
 
 		[Test]
 		public void testStatefulSeq(){
-			log.enterScope("testStatefulSeq");
+			_log.enterScope("testStatefulSeq");
 
 			bool first = true;
 
@@ -80,19 +80,19 @@ namespace Tests
 			new VerificationPoint ().VerifyEquals ("2nd success", true, foo.Behave (), BehaviorReturnCode.Success);
 			new VerificationPoint ().VerifyEquals ("3rd failure", true, foo.Behave (), BehaviorReturnCode.Failure);
 
-			log.logMessage ("restting first");
+			_log.logMessage ("restting first");
 			first = true;
 
 			new VerificationPoint ().VerifyEquals ("after reset running", true, foo.Behave (), BehaviorReturnCode.Running);
 			new VerificationPoint ().VerifyEquals ("final success", true, foo.Behave (), BehaviorReturnCode.Success);
 			new VerificationPoint ().VerifyEquals ("final failure", true, foo.Behave (), BehaviorReturnCode.Failure);
 
-			log.exitScope ();
+			_log.exitScope ();
 		}
 
 		[Test]
 		public void testStatefulSel(){
-			log.enterScope("testStatefulSel");
+			_log.enterScope("testStatefulSel");
 
 			bool first = true;
 			bool second = true;
@@ -122,7 +122,7 @@ namespace Tests
 			new VerificationPoint ().VerifyEquals ("2nd success", true, foo.Behave (), BehaviorReturnCode.Success);
 			new VerificationPoint ().VerifyEquals ("3rd failure", true, foo.Behave (), BehaviorReturnCode.Failure);
 
-			log.logMessage ("restting flags");
+			_log.logMessage ("restting flags");
 			first = true;
 			second = true;
 
@@ -130,7 +130,7 @@ namespace Tests
 			new VerificationPoint ().VerifyEquals ("final success", true, foo.Behave (), BehaviorReturnCode.Success);
 			new VerificationPoint ().VerifyEquals ("final failure", true, foo.Behave (), BehaviorReturnCode.Failure);
 
-			log.exitScope ();
+			_log.exitScope ();
 		}
 	}
 }

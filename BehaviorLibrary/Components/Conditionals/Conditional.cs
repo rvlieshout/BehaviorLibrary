@@ -8,7 +8,7 @@ namespace BehaviorLibrary.Components.Conditionals
     public class Conditional : BehaviorComponent
     {
 
-        private Func<Boolean> c_Bool;
+        private Func<Boolean> _Bool;
 
         /// <summary>
         /// Returns a return code equivalent to the test 
@@ -18,7 +18,7 @@ namespace BehaviorLibrary.Components.Conditionals
         /// <param name="test">the value to be tested</param>
         public Conditional(Func<Boolean> test)
         {
-            c_Bool = test;
+            _Bool = test;
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace BehaviorLibrary.Components.Conditionals
 
             try
             {
-                switch (c_Bool.Invoke())
+                switch (_Bool.Invoke())
                 {
                     case true:
                         ReturnCode = BehaviorReturnCode.Success;

@@ -7,10 +7,10 @@ namespace BehaviorLibrary.Components.Decorators
 {
     public class Counter : BehaviorComponent
     {
-        private int c_MaxCount;
-        private int c_Counter = 0;
+        private int _MaxCount;
+        private int _Counter = 0;
 
-        private BehaviorComponent c_Behavior;
+        private BehaviorComponent _Behavior;
 
         /// <summary>
         /// executes the behavior based on a counter
@@ -21,8 +21,8 @@ namespace BehaviorLibrary.Components.Decorators
         /// <param name="behavior">behavior to run</param>
         public Counter(int maxCount, BehaviorComponent behavior)
         {
-            c_MaxCount = maxCount;
-            c_Behavior = behavior;
+            _MaxCount = maxCount;
+            _Behavior = behavior;
         }
 
         /// <summary>
@@ -33,16 +33,16 @@ namespace BehaviorLibrary.Components.Decorators
         {
             try
             {
-                if (c_Counter < c_MaxCount)
+                if (_Counter < _MaxCount)
                 {
-                    c_Counter++;
+                    _Counter++;
                     ReturnCode = BehaviorReturnCode.Running;
                     return BehaviorReturnCode.Running;
                 }
                 else
                 {
-                    c_Counter = 0;
-                    ReturnCode = c_Behavior.Behave();
+                    _Counter = 0;
+                    ReturnCode = _Behavior.Behave();
                     return ReturnCode;
                 }
             }

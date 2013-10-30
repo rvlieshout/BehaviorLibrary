@@ -8,7 +8,7 @@ namespace BehaviorLibrary.Components.Composites
     public class Selector : BehaviorComponent
     {
 
-        protected BehaviorComponent[] s_Behaviors;
+        protected BehaviorComponent[] _Behaviors;
 
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace BehaviorLibrary.Components.Composites
         /// <param name="behaviors">one to many behavior components</param>
         public Selector(params BehaviorComponent[] behaviors)
         {
-            s_Behaviors = behaviors;
+            _Behaviors = behaviors;
         }
 
         /// <summary>
@@ -31,11 +31,11 @@ namespace BehaviorLibrary.Components.Composites
         public override BehaviorReturnCode Behave()
         {
             
-            for (int i = 0; i < s_Behaviors.Length; i++)
+            for (int i = 0; i < _Behaviors.Length; i++)
             {
                 try
                 {
-                    switch (s_Behaviors[i].Behave())
+                    switch (_Behaviors[i].Behave())
                     {
                         case BehaviorReturnCode.Failure:
                             continue;
