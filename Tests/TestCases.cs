@@ -27,6 +27,7 @@ using BehaviorLibrary.Components.Actions;
 
 namespace Tests
 {
+	[TestCase]
 	public class TestCases
 	{
 		public TestCases (){}

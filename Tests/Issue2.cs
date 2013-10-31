@@ -8,6 +8,7 @@ using BehaviorLibrary.Components.Actions;
 
 namespace Tests
 {
+	[TestCase]
 	public class Issue2
 	{
 		public Issue2 ()

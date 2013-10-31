@@ -31,9 +31,8 @@ namespace Tests
 			try
 			{
 				Tester tester = new Tester();
-				tester.registerTestCase(new TestCases());
-				tester.registerTestCase(new Issue2());
-				tester.initialize();
+				tester.registerTestCases();
+				tester.executeTestCases();
 				Console.Write(tester.getResults());
 			}
 			catch (Exception e)
