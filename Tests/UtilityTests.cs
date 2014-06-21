@@ -60,8 +60,29 @@ namespace Tests
             _log.closeLog();
         }
 
+		[Test]
+		public void test_vector(){
+			_log.enterScope ();
+
+			UtilityVector vec1 = new UtilityVector (0, 1, 2, 3, 4, 5);
+
+			float mag = vec1.magnitude;
+			_log.logDebug ("mag: " + mag);
+			VerificationPoint.VerifyTrue ("verify mag gte 0", true, mag >= 0);
+
+			VerificationPoint.VerifyTrue ("norm is not null", true, vec1.normalize () != null);
+
+			UtilityVector vec2 = new UtilityVector (5, 4, 3, 2, 1, 0);
+
+			float dot = vec1.dot (vec2);
+			_log.logDebug ("dot: " + dot);
+			VerificationPoint.VerifyTrue ("dot between 1 and -1", true, (dot <= 1) && (dot >= -1)); 
+
+			_log.exitScope ();
+		}
+
         [Test]
-        public void test_case_1()
+        public void test_1()
         {
             _log.enterScope();
 
