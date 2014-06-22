@@ -78,6 +78,11 @@ namespace Tests
 			_log.logDebug ("dot: " + dot);
 			VerificationPoint.VerifyTrue ("dot between 1 and -1", true, (dot <= 1) && (dot >= -1)); 
 
+			dot = vec1.dot (vec1);
+			_log.logError ("self dot: " + dot);
+			VerificationPoint.VerifyTrue ("dot with itself should be 1", true, dot == 1);
+
+
 			_log.exitScope ();
 		}
 

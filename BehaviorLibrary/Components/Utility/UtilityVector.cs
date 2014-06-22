@@ -13,6 +13,7 @@ namespace BehaviorLibrary.Components.Utility
 
 		public float[] values{ get; set; }
 
+		//return the magnitude of this vector
 		public float magnitude{ 
 			get{ 
 				float mag = 0;
@@ -23,6 +24,9 @@ namespace BehaviorLibrary.Components.Utility
 			}
 		}
 
+		/// <summary>
+		/// Return a new vector based on the normalization of this instance.
+		/// </summary>
 		public UtilityVector normalize(){
 			if (this.values.Length <= 0)
 				return null;
@@ -39,6 +43,10 @@ namespace BehaviorLibrary.Components.Utility
 			return vec;
 		}
 
+		/// <summary>
+		/// Dot between this and another specified vector. (based on normalized vectors)
+		/// </summary>
+		/// <param name="vector">Vector.</param>
 		public float dot(UtilityVector vector){
 			if (this.magnitude == 0 || vector.magnitude == 0)
 				return -2;
