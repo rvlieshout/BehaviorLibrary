@@ -17,10 +17,13 @@
 //  GNU Lesser General Public License for more details.
 //
 //  You should have received a copy of the GNU Lesser General Public License
-//  along with this program.  If not, see <http://www.gnu.org/licenses/>.using System;
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+
 
 using CSTester;
 using CSLogging;
@@ -87,7 +90,7 @@ namespace Tests
 		}
 
         [Test]
-        public void test_1()
+		public void selector_1()
         {
             _log.enterScope();
 
@@ -102,5 +105,79 @@ namespace Tests
 
             _log.exitScope();
         }
+
+		[Test]
+		public void selector_2(){
+			_log.enterScope();
+
+			//build vectors
+			UtilityVector a = new UtilityVector(0, 1, 0, 1);
+			UtilityVector b = new UtilityVector(1, 1, 0, 0);
+			UtilityVector c = new UtilityVector(1, 0, 1, 0);
+			UtilityVector d = new UtilityVector(0, 0, 1, 1);
+
+			string choice = "";
+
+			//build actions that change choice if called
+			BehaviorAction aa = new BehaviorAction (delegate() {
+				choice = "a";
+				return BehaviorReturnCode.Success;
+			});
+			BehaviorAction ba = new BehaviorAction (delegate() {
+				choice = "b";
+				return BehaviorReturnCode.Success;
+			});
+			BehaviorAction ca = new BehaviorAction (delegate() {
+				choice = "c";
+				return BehaviorReturnCode.Success;
+			});
+			BehaviorAction da = new BehaviorAction (delegate() {
+				choice = "d";
+				return BehaviorReturnCode.Success;
+			});
+			
+			//build the appropraite pairs
+			UtilityPair ap = new UtilityPair (a, aa);
+			UtilityPair bp = new UtilityPair (b, ba);
+			UtilityPair cp = new UtilityPair (c, ca);
+			UtilityPair dp = new UtilityPair (d, da);
+
+
+			//execute tests
+			UtilitySelector sel = new UtilitySelector (delegate() {
+				return new UtilityVector (0,1,0,1);
+			}, ap, bp, cp, dp);
+
+			sel.Behave ();
+
+			VerificationPoint.VerifyTrue ("a chosen", true, choice == "a");
+
+			sel = new UtilitySelector (delegate() {
+				return new UtilityVector (1,1,0,0);
+			}, ap, bp, cp, dp);
+
+			sel.Behave ();
+
+			VerificationPoint.VerifyTrue ("b chosen", true, choice == "b");
+
+			sel = new UtilitySelector (delegate() {
+				return new UtilityVector (1,0,1,0);
+			}, ap, bp, cp, dp);
+
+			sel.Behave ();
+
+			VerificationPoint.VerifyTrue ("c chosen", true, choice == "c");
+
+			sel = new UtilitySelector (delegate() {
+				return new UtilityVector (0,0,1,1);
+			}, ap, bp, cp, dp);
+
+			sel.Behave ();
+
+			VerificationPoint.VerifyTrue ("d chosen", true, choice == "d");
+
+
+			_log.exitScope ();
+		}
     }
 }
