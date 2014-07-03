@@ -79,7 +79,7 @@ namespace Tests
 			VerificationPoint.VerifyTrue ("dot between 1 and -1", true, (dot <= 1) && (dot >= -1)); 
 
 			dot = vec1.dot (vec1);
-			_log.logError ("self dot: " + dot);
+			_log.logDebug ("self dot: " + dot);
 			VerificationPoint.VerifyTrue ("dot with itself should be 1", true, dot == 1);
 
 
@@ -94,11 +94,11 @@ namespace Tests
             UtilityVector vector = new UtilityVector(0, 1, 0, 2);
             BehaviorAction action = new BehaviorAction(delegate() { return BehaviorReturnCode.Success; });
             UtilityPair pair = new UtilityPair(vector, action);
-            UtilitySelector sel = new UtilitySelector(pair);
+			UtilitySelector sel = new UtilitySelector(delegate(){return new UtilityVector(0,1,1,2);},pair,pair);
 
-            var result = sel.Behave();
+			BehaviorReturnCode result = sel.Behave();
 
-            VerificationPoint.VerifyNotEquals("test_case_1", true, result, BehaviorReturnCode.Failure);
+			VerificationPoint.VerifyNotEquals("basic vector compare", true, result, BehaviorReturnCode.Failure);
 
             _log.exitScope();
         }

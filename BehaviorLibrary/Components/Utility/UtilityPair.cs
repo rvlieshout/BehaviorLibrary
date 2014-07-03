@@ -9,7 +9,8 @@ namespace BehaviorLibrary.Components.Utility
     {
         public UtilityPair(UtilityVector vector, BehaviorComponent behavior)
         {
-
+			this.vector = vector;
+			this.behavior = behavior;
         }
 
         public UtilityVector vector { get; set; }
