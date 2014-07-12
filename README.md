@@ -6,7 +6,9 @@ BehaviorLibrary is a framework for creating behavior trees for game AI. It is fr
 New
 ---
 
-Added Utility components, see Utility Test cases for examples 
+Added Utility components, see Utility Test cases for test examples.
+
+The basic point is to use a vector of floating numbers representing weights/values that will be paired with a BehaviorComponent object. When a UtilitySelector is called, it will execute a function that returns a UtilityVector that will then be compared against the BehaviorComponents' paired vectors (via a dot product) and select the pair that best matches and execute its Behavior. 
 
 
 Example
