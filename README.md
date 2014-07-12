@@ -3,6 +3,11 @@ Behavior Library
 
 BehaviorLibrary is a framework for creating behavior trees for game AI. It is free to use, modify, and redestribute as covered under the attached License (FreeBSD).
 
+New
+---
+
+Added Utility components, see Utility Test cases for examples 
+
 It is simple to use and with that simplicity comes performance.
 
 Example of a simple A* following AI on a tilemap
