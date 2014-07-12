@@ -8,6 +8,10 @@ New
 
 Added Utility components, see Utility Test cases for examples 
 
+
+Example
+-------
+
 It is simple to use and with that simplicity comes performance.
 
 Example of a simple A* following AI on a tilemap
