@@ -71,19 +71,19 @@ namespace Tests
 
 			float mag = vec1.magnitude;
 			_log.logDebug ("mag: " + mag);
-			VerificationPoint.VerifyTrue ("verify mag gte 0", true, mag >= 0);
+			Verify.VerifyTrue ("verify mag gte 0", true, mag >= 0);
 
-			VerificationPoint.VerifyTrue ("norm is not null", true, vec1.normalize () != null);
+			Verify.VerifyTrue ("norm is not null", true, vec1.normalize () != null);
 
 			UtilityVector vec2 = new UtilityVector (5, 4, 3, 2, 1, 0);
 
 			float dot = vec1.dot (vec2);
 			_log.logDebug ("dot: " + dot);
-			VerificationPoint.VerifyTrue ("dot between 1 and -1", true, (dot <= 1) && (dot >= -1)); 
+			Verify.VerifyTrue ("dot between 1 and -1", true, (dot <= 1) && (dot >= -1)); 
 
 			dot = vec1.dot (vec1);
 			_log.logDebug ("self dot: " + dot);
-			VerificationPoint.VerifyTrue ("dot with itself should be 1", true, dot == 1);
+			Verify.VerifyTrue ("dot with itself should be 1", true, dot == 1);
 
 
 			_log.exitScope ();
@@ -101,7 +101,7 @@ namespace Tests
 
 			BehaviorReturnCode result = sel.Behave();
 
-			VerificationPoint.VerifyNotEquals("basic vector compare", true, result, BehaviorReturnCode.Failure);
+			Verify.VerifyNotEquals("basic vector compare", true, result, BehaviorReturnCode.Failure);
 
             _log.exitScope();
         }
@@ -150,7 +150,7 @@ namespace Tests
 
 			sel.Behave ();
 
-			VerificationPoint.VerifyTrue ("a chosen", true, choice == "a");
+			Verify.VerifyTrue ("a chosen", true, choice == "a");
 
 			sel = new UtilitySelector (delegate() {
 				return new UtilityVector (1,1,0,0);
@@ -158,7 +158,7 @@ namespace Tests
 
 			sel.Behave ();
 
-			VerificationPoint.VerifyTrue ("b chosen", true, choice == "b");
+			Verify.VerifyTrue ("b chosen", true, choice == "b");
 
 			sel = new UtilitySelector (delegate() {
 				return new UtilityVector (1,0,1,0);
@@ -166,7 +166,7 @@ namespace Tests
 
 			sel.Behave ();
 
-			VerificationPoint.VerifyTrue ("c chosen", true, choice == "c");
+			Verify.VerifyTrue ("c chosen", true, choice == "c");
 
 			sel = new UtilitySelector (delegate() {
 				return new UtilityVector (0,0,1,1);
@@ -174,7 +174,81 @@ namespace Tests
 
 			sel.Behave ();
 
-			VerificationPoint.VerifyTrue ("d chosen", true, choice == "d");
+			Verify.VerifyTrue ("d chosen", true, choice == "d");
+
+
+			_log.exitScope ();
+		}
+
+		[Test]
+		public void selector_3(){
+			_log.enterScope();
+
+			//build vectors
+			UtilityVector a = new UtilityVector(0, 1, 0, 1);
+			UtilityVector b = new UtilityVector(1, 1, 0, 0);
+			UtilityVector c = new UtilityVector(1, 0, 1, 0);
+			UtilityVector d = new UtilityVector(0, 0, 1, 1);
+
+			string choice = "";
+
+			//build actions that change choice if called
+			BehaviorAction aa = new BehaviorAction (delegate() {
+				choice = "a";
+				return BehaviorReturnCode.Success;
+			});
+			BehaviorAction ba = new BehaviorAction (delegate() {
+				choice = "b";
+				return BehaviorReturnCode.Success;
+			});
+			BehaviorAction ca = new BehaviorAction (delegate() {
+				choice = "c";
+				return BehaviorReturnCode.Success;
+			});
+			BehaviorAction da = new BehaviorAction (delegate() {
+				choice = "d";
+				return BehaviorReturnCode.Success;
+			});
+
+			//build the appropraite pairs
+			UtilityPair ap = new UtilityPair (a, aa);
+			UtilityPair bp = new UtilityPair (b, ba);
+			UtilityPair cp = new UtilityPair (c, ca);
+			UtilityPair dp = new UtilityPair (d, da);
+
+
+			//execute tests
+			UtilitySelector sel = new UtilitySelector (delegate() {
+				return new UtilityVector (0.5f,0.7f,0.4f,0.8f);
+			}, ap, bp, cp, dp);
+
+			sel.Behave ();
+
+			Verify.VerifyTrue ("a chosen", true, choice == "a");
+
+			sel = new UtilitySelector (delegate() {
+				return new UtilityVector (0.7f,0.8f,0.5f,0.4f);
+			}, ap, bp, cp, dp);
+
+			sel.Behave ();
+
+			Verify.VerifyTrue ("b chosen", true, choice == "b");
+
+			sel = new UtilitySelector (delegate() {
+				return new UtilityVector (0.7f,0.5f,0.8f,0.4f);
+			}, ap, bp, cp, dp);
+
+			sel.Behave ();
+
+			Verify.VerifyTrue ("c chosen", true, choice == "c");
+
+			sel = new UtilitySelector (delegate() {
+				return new UtilityVector (0.5f,0.4f,0.7f,0.8f);
+			}, ap, bp, cp, dp);
+
+			sel.Behave ();
+
+			Verify.VerifyTrue ("d chosen", true, choice == "d");
 
 
 			_log.exitScope ();

@@ -51,7 +51,7 @@ namespace Tests
 				return BehaviorReturnCode.Running;
 			}));
 
-			VerificationPoint.VerifyEquals ("all running is running", true, foo.Behave(), BehaviorReturnCode.Running);
+			Verify.VerifyEquals ("all running is running", true, foo.Behave(), BehaviorReturnCode.Running);
 
 			foo = new Sequence (new BehaviorAction (delegate() {
 				return BehaviorReturnCode.Running;
@@ -63,7 +63,7 @@ namespace Tests
 				return BehaviorReturnCode.Success;
 			}));
 
-			VerificationPoint.VerifyEquals ("all but one running is running", true, foo.Behave(), BehaviorReturnCode.Running);
+			Verify.VerifyEquals ("all but one running is running", true, foo.Behave(), BehaviorReturnCode.Running);
 
 			foo = new Sequence (new BehaviorAction (delegate() {
 				return BehaviorReturnCode.Success;
@@ -75,7 +75,7 @@ namespace Tests
 				return BehaviorReturnCode.Success;
 			}));
 
-			VerificationPoint.VerifyEquals ("all success is success", true, foo.Behave(), BehaviorReturnCode.Success);
+			Verify.VerifyEquals ("all success is success", true, foo.Behave(), BehaviorReturnCode.Success);
 
 
 			_log.exitScope ();
