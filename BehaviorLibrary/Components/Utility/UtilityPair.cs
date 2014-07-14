@@ -1,5 +1,5 @@
 ﻿//
-//  UtilityTests.cs
+//  UtilityPair.cs
 //
 //  Author:
 //       Thomas H. Jonell <@Net_Gnome>

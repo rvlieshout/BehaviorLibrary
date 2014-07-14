@@ -1,5 +1,5 @@
 ﻿//
-//  UtilityTests.cs
+//  UtilityVector.cs
 //
 //  Author:
 //       Thomas H. Jonell <@Net_Gnome>
