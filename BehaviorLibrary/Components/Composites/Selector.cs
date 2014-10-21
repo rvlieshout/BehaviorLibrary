@@ -5,10 +5,10 @@ using System.Text;
 
 namespace BehaviorLibrary.Components.Composites
 {
-    public class Selector : BehaviorComponent
+	public class Selector : BehaviorComponent
     {
 
-        protected BehaviorComponent[] _Behaviors;
+		protected BehaviorComponent[] _Behaviors;
 
 
         /// <summary>
@@ -19,7 +19,7 @@ namespace BehaviorLibrary.Components.Composites
         /// -Returns Failure if all behavior components returned Failure
         /// </summary>
         /// <param name="behaviors">one to many behavior components</param>
-        public Selector(params BehaviorComponent[] behaviors)
+		public Selector(params BehaviorComponent[] behaviors)
         {
             _Behaviors = behaviors;
         }

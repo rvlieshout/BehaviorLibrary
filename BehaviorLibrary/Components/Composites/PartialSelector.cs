@@ -5,10 +5,10 @@ using System.Text;
 
 namespace BehaviorLibrary.Components.Composites
 {
-    public class PartialSelector : BehaviorComponent
+	public class PartialSelector : BehaviorComponent
     {
 
-        protected BehaviorComponent[] _Behaviors;
+		protected BehaviorComponent[] _Behaviors;
 
         private short _selections = 0;
 
@@ -22,7 +22,7 @@ namespace BehaviorLibrary.Components.Composites
         /// -Returns Failure if all behavior components returned Failure or an error has occured
         /// </summary>
         /// <param name="behaviors">one to many behavior components</param>
-        public PartialSelector(params BehaviorComponent[] behaviors)
+		public PartialSelector(params BehaviorComponent[] behaviors)
         {
             _Behaviors = behaviors;
             _selLength = (short)_Behaviors.Length;

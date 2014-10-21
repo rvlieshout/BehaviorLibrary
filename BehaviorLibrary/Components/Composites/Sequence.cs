@@ -5,10 +5,10 @@ using System.Text;
 
 namespace BehaviorLibrary.Components.Composites
 {
-    public class Sequence : BehaviorComponent
+	public class Sequence : BehaviorComponent
     {
 
-        private BehaviorComponent[] _behaviors;
+		private BehaviorComponent[] _behaviors;
 
         /// <summary>
         /// attempts to run the behaviors all in one cycle
@@ -17,7 +17,7 @@ namespace BehaviorLibrary.Components.Composites
         /// -Returns Running if any are running
         /// </summary>
         /// <param name="behaviors"></param>
-        public Sequence(params BehaviorComponent[] behaviors)
+		public Sequence(params BehaviorComponent[] behaviors)
         {
             _behaviors = behaviors;
         }

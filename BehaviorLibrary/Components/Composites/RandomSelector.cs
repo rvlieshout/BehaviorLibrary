@@ -5,10 +5,10 @@ using System.Text;
 
 namespace BehaviorLibrary.Components.Composites
 {
-    public class RandomSelector : BehaviorComponent
+	public class RandomSelector : BehaviorComponent
     {
 
-        private BehaviorComponent[] _Behaviors;
+		private BehaviorComponent[] _Behaviors;
 
         //use current milliseconds to set random seed
         private Random _Random = new Random(DateTime.Now.Millisecond);
@@ -20,7 +20,7 @@ namespace BehaviorLibrary.Components.Composites
         /// -Returns Running if selected behavior returns Running
         /// </summary>
         /// <param name="behaviors">one to many behavior components</param>
-        public RandomSelector(params BehaviorComponent[] behaviors) 
+		public RandomSelector(params BehaviorComponent[] behaviors) 
         {
             _Behaviors = behaviors;
         }

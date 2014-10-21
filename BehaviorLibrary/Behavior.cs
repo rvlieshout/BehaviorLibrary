@@ -21,7 +21,7 @@ namespace BehaviorLibrary
     public class Behavior
     {
 
-        private RootSelector _Root;
+		private BehaviorComponent _Root;
 
         private BehaviorReturnCode _ReturnCode;
 
@@ -35,10 +35,14 @@ namespace BehaviorLibrary
         /// 
         /// </summary>
         /// <param name="root"></param>
-        public Behavior(RootSelector root)
+        public Behavior(IndexSelector root)
         {
             _Root = root;
         }
+
+		public Behavior(BehaviorComponent root){
+			_Root = root;
+		}
 
         /// <summary>
         /// perform the behavior

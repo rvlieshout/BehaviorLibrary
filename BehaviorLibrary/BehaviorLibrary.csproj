@@ -45,7 +45,6 @@
     <Compile Include="Components\Actions\BehaviorAction.cs" />
     <Compile Include="Components\BehaviorComponent.cs" />
     <Compile Include="Components\Composites\RandomSelector.cs" />
-    <Compile Include="Components\Composites\RootSelector.cs" />
     <Compile Include="Components\Composites\Selector.cs" />
     <Compile Include="Components\Conditionals\Conditional.cs" />
     <Compile Include="Components\Decorators\Counter.cs" />
@@ -64,6 +63,7 @@
     <Compile Include="Components\Decorators\Repeater.cs" />
     <Compile Include="Components\Decorators\RepeatUntilFail.cs" />
     <Compile Include="Components\Decorators\Succeeder.cs" />
+    <Compile Include="Components\Composites\IndexSelector.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

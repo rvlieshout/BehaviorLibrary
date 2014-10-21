@@ -5,10 +5,10 @@ using System.Text;
 
 namespace BehaviorLibrary.Components.Composites
 {
-    public class PartialSequence : BehaviorComponent
+	public class PartialSequence : BehaviorComponent
     {
 
-        protected BehaviorComponent[] _Behaviors;
+		protected BehaviorComponent[] _Behaviors;
 
         private short _sequence = 0;
 
@@ -22,7 +22,7 @@ namespace BehaviorLibrary.Components.Composites
         /// -Returns Failure if a behavior components returns Failure or an error is encountered
         /// </summary>
         /// <param name="behaviors">one to many behavior components</param>
-        public PartialSequence(params BehaviorComponent[] behaviors)
+		public PartialSequence(params BehaviorComponent[] behaviors)
         {
             _Behaviors = behaviors;
             _seqLength = (short) _Behaviors.Length;

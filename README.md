@@ -3,8 +3,18 @@ Behavior Library
 
 BehaviorLibrary is a framework for creating behavior trees for game AI. It is free to use, modify, and redestribute as covered under the attached License (FreeBSD).
 
-New
----
+Changes
+-------
+
+RootSelector has been refactored to IndexSelector. It works exactly the same, just has a more appropriate name.
+
+Behavior has had an additional constructor added that allows BehaviorComponent objects to be used rather than just RootSelector/IndexSelector objects.
+
+Merged in new Repeater, Succeeder, RepeatUntilFail Decorators.
+
+
+Utilities
+---------
 
 Added Utility components, see Utility Test cases for test examples.
 

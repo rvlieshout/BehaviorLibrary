@@ -5,10 +5,10 @@ using System.Text;
 
 namespace BehaviorLibrary.Components.Composites
 {
-    public class RootSelector : PartialSelector
+	public class IndexSelector : BehaviorComponent
     {
 
-        private BehaviorComponent[] _Behaviors;
+		private BehaviorComponent[] _Behaviors;
 
         private Func<int> _Index;
 
@@ -17,7 +17,7 @@ namespace BehaviorLibrary.Components.Composites
         /// </summary>
         /// <param name="index">an index representing which of the behavior branches to perform</param>
         /// <param name="behaviors">the behavior branches to be selected from</param>
-        public RootSelector(Func<int> index, params BehaviorComponent[] behaviors)
+		public IndexSelector(Func<int> index, params BehaviorComponent[] behaviors)
         {
             _Index = index;
             _Behaviors = behaviors;
