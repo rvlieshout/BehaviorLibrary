@@ -61,6 +61,9 @@
     <Compile Include="Components\Composites\Sequence.cs" />
     <Compile Include="Components\Composites\StatefulSequence.cs" />
     <Compile Include="Components\Composites\StatefulSelector.cs" />
+    <Compile Include="Components\Decorators\Repeater.cs" />
+    <Compile Include="Components\Decorators\RepeatUntilFail.cs" />
+    <Compile Include="Components\Decorators\Succeeder.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
