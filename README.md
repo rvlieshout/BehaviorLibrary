@@ -6,7 +6,7 @@ BehaviorLibrary is a framework for creating behavior trees for game AI. It is fr
 Changes
 -------
 
-IndexSelector has been refactored to IndexSelector. It works exactly the same, just has a more appropriate name.
+RootSelector has been refactored to IndexSelector. It works exactly the same, just has a more appropriate name.
 
 Behavior has had an additional constructor added that allows BehaviorComponent objects to be used rather than just IndexSelector/IndexSelector objects.
 
