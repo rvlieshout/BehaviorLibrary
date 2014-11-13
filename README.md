@@ -6,9 +6,9 @@ BehaviorLibrary is a framework for creating behavior trees for game AI. It is fr
 Changes
 -------
 
-RootSelector has been refactored to IndexSelector. It works exactly the same, just has a more appropriate name.
+IndexSelector has been refactored to IndexSelector. It works exactly the same, just has a more appropriate name.
 
-Behavior has had an additional constructor added that allows BehaviorComponent objects to be used rather than just RootSelector/IndexSelector objects.
+Behavior has had an additional constructor added that allows BehaviorComponent objects to be used rather than just IndexSelector/IndexSelector objects.
 
 Merged in new Repeater, Succeeder, RepeatUntilFail Decorators.
 
@@ -48,20 +48,20 @@ Example of a simple A* following AI on a tilemap
 	BehaviorAction animate = new BehaviorAction(updateAnimation);
 
 	//setup an initilization branch
-	ParallelSequence initialize = new ParallelSequence(initPathfinder, calcPath);
+	Sequence initialize = new Sequence(initPathfinder, calcPath);
 
 	//if the target has moved, reset and calculate a new path
-	ParallelSelector ifMovedCreateNewPath = new ParallelSelector(new Inverter(targetMoved), new Inverter(reset), calcPath);
-	ParallelSelector ifPathFoundGetPath = new ParallelSelector(new Inverter(pathFound), getPath);
-	ParallelSelector ifPathNewUseIt = new ParallelSelector(new Inverter(isNewPath), setPath);
-	ParallelSelector ifReachedCellGetNext = new ParallelSelector(new Inverter(reachedCell), getNextCell);
-	ParallelSelector ifNotReachedTargetMoveTowardsCell = new ParallelSelector(reachedTarget, moveToCell);
+	Selector ifMovedCreateNewPath = new Selector(new Inverter(targetMoved), new Inverter(reset), calcPath);
+	Selector ifPathFoundGetPath = new Selector(new Inverter(pathFound), getPath);
+	Selector ifPathNewUseIt = new Selector(new Inverter(isNewPath), setPath);
+	Selector ifReachedCellGetNext = new Selector(new Inverter(reachedCell), getNextCell);
+	Selector ifNotReachedTargetMoveTowardsCell = new Selector(reachedTarget, moveToCell);
             
 	//follow target so long as you're not too close and then animate
-	ParallelSequence follow = new ParallelSequence(new Inverter(tooClose), updatePosition, ifMovedCreateNewPath, ifPathFoundGetPath, ifPathIsNewUseIt, ifReachedCellGetNext, ifNotReachedTargetMoveTowardsCell, animate);
+	Sequence follow = new Sequence(new Inverter(tooClose), updatePosition, ifMovedCreateNewPath, ifPathFoundGetPath, ifPathIsNewUseIt, ifReachedCellGetNext, ifNotReachedTargetMoveTowardsCell, animate);
 
 	//setup root node, choose initialization phase or pathing/movement phase
-	RootSelector root = new RootSelector(switchBehaviors, initialize, follow);
+	IndexSelector root = new IndexSelector(switchBehaviors, initialize, follow);
 
 	//set a reference to the root
 	Behavior behavior = new Behavior(root);
