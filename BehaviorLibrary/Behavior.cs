@@ -1,11 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using BehaviorLibrary.Components;
-using BehaviorLibrary.Components.Composites;
-
 namespace BehaviorLibrary
 {
+    using System;
+    using System.Diagnostics;
+    using Components;
+    using Components.Composites;
+
     public enum BehaviorReturnCode
     {
         Failure,
@@ -20,16 +19,9 @@ namespace BehaviorLibrary
     /// </summary>
     public class Behavior
     {
+        private readonly BehaviorComponent root;
 
-		private BehaviorComponent _Root;
-
-        private BehaviorReturnCode _ReturnCode;
-
-        public BehaviorReturnCode ReturnCode
-        {
-            get { return _ReturnCode; }
-            set { _ReturnCode = value; }
-        }
+        public BehaviorReturnCode ReturnCode { get; private set; }
 
         /// <summary>
         /// 
@@ -37,12 +29,13 @@ namespace BehaviorLibrary
         /// <param name="root"></param>
         public Behavior(IndexSelector root)
         {
-            _Root = root;
+            this.root = root;
         }
 
-		public Behavior(BehaviorComponent root){
-			_Root = root;
-		}
+        public Behavior(BehaviorComponent root)
+        {
+            this.root = root;
+        }
 
         /// <summary>
         /// perform the behavior
@@ -51,30 +44,15 @@ namespace BehaviorLibrary
         {
             try
             {
-                switch (_Root.Behave())
-                {
-                    case BehaviorReturnCode.Failure:
-                        ReturnCode = BehaviorReturnCode.Failure;
-                        return ReturnCode;
-                    case BehaviorReturnCode.Success:
-                        ReturnCode = BehaviorReturnCode.Success;
-                        return ReturnCode;
-                    case BehaviorReturnCode.Running:
-                        ReturnCode = BehaviorReturnCode.Running;
-                        return ReturnCode;
-                    default:
-                        ReturnCode = BehaviorReturnCode.Running;
-                        return ReturnCode;
-                }
+                ReturnCode = root.Behave();
             }
             catch (Exception e)
             {
-#if DEBUG
-                Console.Error.WriteLine(e.ToString());
-#endif
+                Debug.WriteLine(e.ToString());
                 ReturnCode = BehaviorReturnCode.Failure;
-                return ReturnCode;
             }
+
+            return ReturnCode;
         }
     }
 }

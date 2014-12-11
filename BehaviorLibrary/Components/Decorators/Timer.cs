@@ -1,32 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BehaviorLibrary.Components.Decorators
+﻿namespace BehaviorLibrary.Components.Decorators
 {
+    using System;
+    using System.Diagnostics;
+
     public class Timer : BehaviorComponent
     {
+        private readonly Func<int> elapsedTimeFunction;
 
-        private Func<int> _ElapsedTimeFunction;
+        private readonly BehaviorComponent behavior;
 
-        private BehaviorComponent _Behavior;
+        private int timeElapsed;
 
-        private int _TimeElapsed = 0;
-
-        private int _WaitTime;
+        private readonly int waitTime;
 
         /// <summary>
         /// executes the behavior after a given amount of time in miliseconds has passed
         /// </summary>
         /// <param name="elapsedTimeFunction">function that returns elapsed time</param>
-        /// <param name="timeToWait">maximum time to wait before executing behavior</param>
+        /// <param name="timeToWait">minimum time to wait before executing behavior</param>
         /// <param name="behavior">behavior to run</param>
         public Timer(Func<int> elapsedTimeFunction, int timeToWait, BehaviorComponent behavior)
         {
-            _ElapsedTimeFunction = elapsedTimeFunction;
-            _Behavior = behavior;
-            _WaitTime = timeToWait;
+            this.elapsedTimeFunction = elapsedTimeFunction;
+            this.behavior = behavior;
+            waitTime = timeToWait;
         }
 
         /// <summary>
@@ -37,27 +34,17 @@ namespace BehaviorLibrary.Components.Decorators
         {
             try
             {
-                _TimeElapsed += _ElapsedTimeFunction.Invoke();
+                timeElapsed += elapsedTimeFunction.Invoke();
 
-                if (_TimeElapsed >= _WaitTime)
-                {
-                    _TimeElapsed = 0;
-                    ReturnCode = _Behavior.Behave();
-                    return ReturnCode;
-                }
-                else
-                {
-                    ReturnCode = BehaviorReturnCode.Running;
-                    return BehaviorReturnCode.Running;
-                }
+                if (timeElapsed < waitTime) return Running();
+
+                timeElapsed = 0;
+                return ReturnCode = behavior.Behave();
             }
             catch (Exception e)
             {
-#if DEBUG
-                Console.Error.WriteLine(e.ToString());
-#endif
-                ReturnCode = BehaviorReturnCode.Failure;
-                return BehaviorReturnCode.Failure;
+                Debug.WriteLine(e.ToString());
+                return Failure();
             }
         }
     }

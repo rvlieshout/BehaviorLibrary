@@ -1,23 +1,20 @@
-namespace BehaviorLibrary
+﻿namespace BehaviorLibrary.Components.Composites
 {
     using System;
     using System.Diagnostics;
-    using Components;
 
-    public class StatefulSequence : BehaviorComponent
+    public class Parallel : BehaviorComponent
     {
         private readonly BehaviorComponent[] behaviors;
 
-        private int lastBehavior;
-
         /// <summary>
-        /// attempts to run the behaviors all in one cycle (stateful on running)
+        /// attempts to run the behaviors all in one cycle
         /// -Returns Success when all are successful
         /// -Returns Failure if one behavior fails or an error occurs
-        /// -Does not Return Running
+        /// -Returns Running if any are running
         /// </summary>
         /// <param name="behaviors"></param>
-        public StatefulSequence(params BehaviorComponent[] behaviors)
+        public Parallel(params BehaviorComponent[] behaviors)
         {
             this.behaviors = behaviors;
         }
@@ -28,35 +25,34 @@ namespace BehaviorLibrary
         /// <returns>the behaviors return code</returns>
         public override BehaviorReturnCode Behave()
         {
-            //start from last remembered position
-            for (; lastBehavior < behaviors.Length; lastBehavior++)
+            //add watch for any running behaviors
+            var anyRunning = false;
+
+            foreach (var bc in behaviors)
             {
                 try
                 {
-                    switch (behaviors[lastBehavior].Behave())
+                    switch (bc.Behave())
                     {
                         case BehaviorReturnCode.Failure:
-                            lastBehavior = 0;
                             return Failure();
                         case BehaviorReturnCode.Success:
                             continue;
                         case BehaviorReturnCode.Running:
-                            return Running();
+                            anyRunning = true;
+                            continue;
                         default:
-                            lastBehavior = 0;
                             return Success();
                     }
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.ToString());
-                    lastBehavior = 0;
                     return Failure();
                 }
             }
 
-            lastBehavior = 0;
-            return Success();
+            return anyRunning ? Running() : Success();
         }
     }
 }

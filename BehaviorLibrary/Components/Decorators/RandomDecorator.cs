@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BehaviorLibrary.Components.Decorators
+﻿namespace BehaviorLibrary.Components.Decorators
 {
+    using System;
+    using System.Diagnostics;
+
     public class RandomDecorator : BehaviorComponent
     {
+        private readonly float probability;
 
-        private float _Probability;
+        private readonly Func<float> randomFunction;
 
-        private Func<float> _RandomFunction;
-
-        private BehaviorComponent _Behavior;
+        private readonly BehaviorComponent behavior;
 
         /// <summary>
         /// randomly executes the behavior
@@ -22,9 +19,9 @@ namespace BehaviorLibrary.Components.Decorators
         /// <param name="behavior">behavior to execute</param>
         public RandomDecorator(float probability, Func<float> randomFunction, BehaviorComponent behavior)
         {
-            _Probability = probability;
-            _RandomFunction = randomFunction;
-            _Behavior = behavior;
+            this.probability = probability;
+            this.randomFunction = randomFunction;
+            this.behavior = behavior;
         }
 
 
@@ -32,24 +29,12 @@ namespace BehaviorLibrary.Components.Decorators
         {
             try
             {
-                if (_RandomFunction.Invoke() <= _Probability)
-                {
-                    ReturnCode = _Behavior.Behave();
-                    return ReturnCode;
-                }
-                else
-                {
-                    ReturnCode = BehaviorReturnCode.Running;
-                    return BehaviorReturnCode.Running;
-                }
+                return randomFunction.Invoke() <= probability ? (ReturnCode = behavior.Behave()) : Running();
             }
             catch (Exception e)
             {
-#if DEBUG
-                Console.Error.WriteLine(e.ToString());
-#endif
-                ReturnCode = BehaviorReturnCode.Failure;
-                return BehaviorReturnCode.Failure;
+                Debug.WriteLine(e.ToString());
+                return Failure();
             }
         }
     }

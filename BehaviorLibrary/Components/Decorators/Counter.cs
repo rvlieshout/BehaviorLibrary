@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BehaviorLibrary.Components.Decorators
+﻿namespace BehaviorLibrary.Components.Decorators
 {
+    using System;
+    using System.Diagnostics;
+
     public class Counter : BehaviorComponent
     {
-        private int _MaxCount;
-        private int _Counter = 0;
+        private readonly int maxCount;
+        private int counter;
 
-        private BehaviorComponent _Behavior;
+        private readonly BehaviorComponent behavior;
 
         /// <summary>
         /// executes the behavior based on a counter
@@ -21,8 +19,8 @@ namespace BehaviorLibrary.Components.Decorators
         /// <param name="behavior">behavior to run</param>
         public Counter(int maxCount, BehaviorComponent behavior)
         {
-            _MaxCount = maxCount;
-            _Behavior = behavior;
+            this.maxCount = maxCount;
+            this.behavior = behavior;
         }
 
         /// <summary>
@@ -33,26 +31,19 @@ namespace BehaviorLibrary.Components.Decorators
         {
             try
             {
-                if (_Counter < _MaxCount)
+                if (counter < maxCount)
                 {
-                    _Counter++;
-                    ReturnCode = BehaviorReturnCode.Running;
-                    return BehaviorReturnCode.Running;
+                    counter++;
+                    return Running();
                 }
-                else
-                {
-                    _Counter = 0;
-                    ReturnCode = _Behavior.Behave();
-                    return ReturnCode;
-                }
+
+                counter = 0;
+                return ReturnCode = behavior.Behave();
             }
             catch (Exception e)
             {
-#if DEBUG
-                Console.Error.WriteLine(e.ToString());
-#endif
-                ReturnCode = BehaviorReturnCode.Failure;
-                return BehaviorReturnCode.Failure;
+                Debug.WriteLine(e.ToString());
+                return Failure();
             }
         }
     }

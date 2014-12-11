@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BehaviorLibrary.Components.Composites
+﻿namespace BehaviorLibrary.Components.Composites
 {
-	public class RandomSelector : BehaviorComponent
-    {
+    using System;
+    using System.Diagnostics;
 
-		private BehaviorComponent[] _Behaviors;
+    public class RandomSelector : BehaviorComponent
+    {
+        private readonly BehaviorComponent[] behaviors;
 
         //use current milliseconds to set random seed
-        private Random _Random = new Random(DateTime.Now.Millisecond);
+        private static readonly Random Random = new Random(DateTime.Now.Millisecond);
 
         /// <summary>
         /// Randomly selects and performs one of the passed behaviors
@@ -20,9 +17,9 @@ namespace BehaviorLibrary.Components.Composites
         /// -Returns Running if selected behavior returns Running
         /// </summary>
         /// <param name="behaviors">one to many behavior components</param>
-		public RandomSelector(params BehaviorComponent[] behaviors) 
+        public RandomSelector(params BehaviorComponent[] behaviors)
         {
-            _Behaviors = behaviors;
+            this.behaviors = behaviors;
         }
 
         /// <summary>
@@ -31,33 +28,14 @@ namespace BehaviorLibrary.Components.Composites
         /// <returns>the behaviors return code</returns>
         public override BehaviorReturnCode Behave()
         {
-            _Random = new Random(DateTime.Now.Millisecond);
-
             try
             {
-                switch (_Behaviors[_Random.Next(0, _Behaviors.Length - 1)].Behave())
-                {
-                    case BehaviorReturnCode.Failure:
-                        ReturnCode = BehaviorReturnCode.Failure;
-                        return ReturnCode;
-                    case BehaviorReturnCode.Success:
-                        ReturnCode = BehaviorReturnCode.Success;
-                        return ReturnCode;
-                    case BehaviorReturnCode.Running:
-                        ReturnCode = BehaviorReturnCode.Running;
-                        return ReturnCode;
-                    default:
-                        ReturnCode = BehaviorReturnCode.Failure;
-                        return ReturnCode;
-                }
+                return behaviors[Random.Next(0, behaviors.Length - 1)].Behave();
             }
             catch (Exception e)
             {
-#if DEBUG
-                Console.Error.WriteLine(e.ToString());
-#endif
-                ReturnCode = BehaviorReturnCode.Failure;
-                return ReturnCode;
+                Debug.WriteLine(e.ToString());
+                return Failure();
             }
         }
     }

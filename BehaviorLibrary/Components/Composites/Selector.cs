@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BehaviorLibrary.Components.Composites
+﻿namespace BehaviorLibrary.Components.Composites
 {
-	public class Selector : BehaviorComponent
+    using System;
+    using System.Diagnostics;
+
+    public class Selector : BehaviorComponent
     {
-
-		protected BehaviorComponent[] _Behaviors;
-
+        private readonly BehaviorComponent[] behaviors;
 
         /// <summary>
         /// Selects among the given behavior components
@@ -19,9 +15,9 @@ namespace BehaviorLibrary.Components.Composites
         /// -Returns Failure if all behavior components returned Failure
         /// </summary>
         /// <param name="behaviors">one to many behavior components</param>
-		public Selector(params BehaviorComponent[] behaviors)
+        public Selector(params BehaviorComponent[] behaviors)
         {
-            _Behaviors = behaviors;
+            this.behaviors = behaviors;
         }
 
         /// <summary>
@@ -30,36 +26,29 @@ namespace BehaviorLibrary.Components.Composites
         /// <returns>the behaviors return code</returns>
         public override BehaviorReturnCode Behave()
         {
-            
-            for (int i = 0; i < _Behaviors.Length; i++)
+            foreach (var bc in behaviors)
             {
                 try
                 {
-                    switch (_Behaviors[i].Behave())
+                    switch (bc.Behave())
                     {
                         case BehaviorReturnCode.Failure:
                             continue;
                         case BehaviorReturnCode.Success:
-                            ReturnCode = BehaviorReturnCode.Success;
-                            return ReturnCode;
+                            return Success();
                         case BehaviorReturnCode.Running:
-                            ReturnCode = BehaviorReturnCode.Running;
-                            return ReturnCode;
+                            return Running();
                         default:
                             continue;
                     }
                 }
                 catch (Exception e)
                 {
-#if DEBUG
-                Console.Error.WriteLine(e.ToString());
-#endif
-                    continue;
+                    Debug.WriteLine(e.ToString());
                 }
             }
 
-            ReturnCode = BehaviorReturnCode.Failure;
-            return ReturnCode;
+            return Failure();
         }
     }
 }

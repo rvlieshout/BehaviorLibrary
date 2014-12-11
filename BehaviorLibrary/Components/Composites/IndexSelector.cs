@@ -1,26 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BehaviorLibrary.Components.Composites
+﻿namespace BehaviorLibrary.Components.Composites
 {
-	public class IndexSelector : BehaviorComponent
+    using System;
+    using System.Diagnostics;
+
+    public class IndexSelector : BehaviorComponent
     {
+        private readonly BehaviorComponent[] behaviors;
 
-		private BehaviorComponent[] _Behaviors;
-
-        private Func<int> _Index;
+        private readonly Func<int> index;
 
         /// <summary>
         /// The selector for the root node of the behavior tree
         /// </summary>
         /// <param name="index">an index representing which of the behavior branches to perform</param>
         /// <param name="behaviors">the behavior branches to be selected from</param>
-		public IndexSelector(Func<int> index, params BehaviorComponent[] behaviors)
+        public IndexSelector(Func<int> index, params BehaviorComponent[] behaviors)
         {
-            _Index = index;
-            _Behaviors = behaviors;
+            this.index = index;
+            this.behaviors = behaviors;
         }
 
         /// <summary>
@@ -31,29 +28,12 @@ namespace BehaviorLibrary.Components.Composites
         {
             try
             {
-                switch (_Behaviors[_Index.Invoke()].Behave())
-                {
-                    case BehaviorReturnCode.Failure:
-                        ReturnCode = BehaviorReturnCode.Failure;
-                        return ReturnCode;
-                    case BehaviorReturnCode.Success:
-                        ReturnCode = BehaviorReturnCode.Success;
-                        return ReturnCode;
-                    case BehaviorReturnCode.Running:
-                        ReturnCode = BehaviorReturnCode.Running;
-                        return ReturnCode;
-                    default:
-                        ReturnCode = BehaviorReturnCode.Running;
-                        return ReturnCode;
-                }
+                return behaviors[index.Invoke()].Behave();
             }
             catch (Exception e)
             {
-#if DEBUG
-                Console.Error.WriteLine(e.ToString());
-#endif
-                ReturnCode = BehaviorReturnCode.Failure;
-                return ReturnCode;
+                Debug.WriteLine(e.ToString());
+                return Failure();
             }
         }
     }

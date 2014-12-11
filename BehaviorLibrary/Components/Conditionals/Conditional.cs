@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BehaviorLibrary.Components.Conditionals
+﻿namespace BehaviorLibrary.Components.Conditionals
 {
+    using System;
+
     public class Conditional : BehaviorComponent
     {
-
-        private Func<Boolean> _Bool;
+        private readonly Func<Boolean> test;
 
         /// <summary>
         /// Returns a return code equivalent to the test 
@@ -18,7 +14,7 @@ namespace BehaviorLibrary.Components.Conditionals
         /// <param name="test">the value to be tested</param>
         public Conditional(Func<Boolean> test)
         {
-            _Bool = test;
+            this.test = test;
         }
 
         /// <summary>
@@ -27,29 +23,16 @@ namespace BehaviorLibrary.Components.Conditionals
         /// <returns>the behaviors return code</returns>
         public override BehaviorReturnCode Behave()
         {
-
             try
             {
-                switch (_Bool.Invoke())
-                {
-                    case true:
-                        ReturnCode = BehaviorReturnCode.Success;
-                        return ReturnCode;
-                    case false:
-                        ReturnCode = BehaviorReturnCode.Failure;
-                        return ReturnCode;
-                    default:
-                        ReturnCode = BehaviorReturnCode.Failure;
-                        return ReturnCode;
-                }
+                return (test.Invoke()) ? Success() : Failure();
             }
             catch (Exception e)
             {
 #if DEBUG
                 Console.Error.WriteLine(e.ToString());
 #endif
-                ReturnCode = BehaviorReturnCode.Failure;
-                return ReturnCode;
+                return Failure();
             }
         }
     }

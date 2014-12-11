@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BehaviorLibrary.Components.Decorators
+﻿namespace BehaviorLibrary.Components.Decorators
 {
+    using System;
+    using System.Diagnostics;
+
     public class Inverter : BehaviorComponent
     {
-
-        private BehaviorComponent _Behavior;
+        private readonly BehaviorComponent _Behavior;
 
         /// <summary>
         /// inverts the given behavior
@@ -17,7 +14,7 @@ namespace BehaviorLibrary.Components.Decorators
         /// -Returns Running on Running
         /// </summary>
         /// <param name="behavior"></param>
-        public Inverter(BehaviorComponent behavior) 
+        public Inverter(BehaviorComponent behavior)
         {
             _Behavior = behavior;
         }
@@ -33,29 +30,19 @@ namespace BehaviorLibrary.Components.Decorators
                 switch (_Behavior.Behave())
                 {
                     case BehaviorReturnCode.Failure:
-                        ReturnCode = BehaviorReturnCode.Success;
-                        return ReturnCode;
+                        return Success();
                     case BehaviorReturnCode.Success:
-                        ReturnCode = BehaviorReturnCode.Failure;
-                        return ReturnCode;
+                        return Failure();
                     case BehaviorReturnCode.Running:
-                        ReturnCode = BehaviorReturnCode.Running;
-                        return ReturnCode;
+                        return Running();
                 }
             }
             catch (Exception e)
             {
-#if DEBUG
-                Console.Error.WriteLine(e.ToString());
-#endif
-                ReturnCode = BehaviorReturnCode.Success;
-                return ReturnCode;
+                Debug.WriteLine(e.ToString());
             }
 
-            ReturnCode = BehaviorReturnCode.Success;
-            return ReturnCode;
-
+            return Success();
         }
-
     }
 }

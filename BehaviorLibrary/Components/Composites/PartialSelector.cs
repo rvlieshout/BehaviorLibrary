@@ -1,31 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BehaviorLibrary.Components.Composites
+﻿namespace BehaviorLibrary.Components.Composites
 {
-	public class PartialSelector : BehaviorComponent
+    using System;
+    using System.Diagnostics;
+
+    public class PartialSelector : BehaviorComponent
     {
+        private readonly BehaviorComponent[] behaviors;
 
-		protected BehaviorComponent[] _Behaviors;
+        private short _selections;
 
-        private short _selections = 0;
-
-        private short _selLength = 0;
+        private readonly short _selLength;
 
         /// <summary>
-		/// Selects among the given behavior components (one evaluation per Behave call)
-        /// Performs an OR-Like behavior and will "fail-over" to each successive component until Success is reached or Failure is certain
-        /// -Returns Success if a behavior component returns Success
-        /// -Returns Running if a behavior component returns Failure or Running
-        /// -Returns Failure if all behavior components returned Failure or an error has occured
+        /// Selects among the given behavior components (one evaluation per Behave call)
+        /// Performs an OR-Like behavior and will "fail-over" to each successive component until
+        /// Success is reached or Failure is certain.
         /// </summary>
         /// <param name="behaviors">one to many behavior components</param>
-		public PartialSelector(params BehaviorComponent[] behaviors)
+        /// <returns>
+        /// Returns Success if a behavior component returns Success; 
+        /// Returns Running if a behavior component returns Failure or Running;
+        /// Returns Failure if all behavior components returned Failure or an error has occured
+        /// </returns>
+        public PartialSelector(params BehaviorComponent[] behaviors)
         {
-            _Behaviors = behaviors;
-            _selLength = (short)_Behaviors.Length;
+            this.behaviors = behaviors;
+            _selLength = (short) this.behaviors.Length;
         }
 
         /// <summary>
@@ -38,41 +38,31 @@ namespace BehaviorLibrary.Components.Composites
             {
                 try
                 {
-                    switch (_Behaviors[_selections].Behave())
+                    switch (behaviors[_selections].Behave())
                     {
                         case BehaviorReturnCode.Failure:
                             _selections++;
-                            ReturnCode = BehaviorReturnCode.Running;
-                            return ReturnCode;
+                            return Running();
                         case BehaviorReturnCode.Success:
                             _selections = 0;
-                            ReturnCode = BehaviorReturnCode.Success;
-                            return ReturnCode;
+                            return Success();
                         case BehaviorReturnCode.Running:
-                            ReturnCode = BehaviorReturnCode.Running;
-                            return ReturnCode;
+                            return Running();
                         default:
                             _selections++;
-                            ReturnCode = BehaviorReturnCode.Failure;
-                            return ReturnCode;
+                            return Failure();
                     }
                 }
                 catch (Exception e)
                 {
-#if DEBUG
-                Console.Error.WriteLine(e.ToString());
-#endif
+                    Debug.WriteLine(e.ToString());
                     _selections++;
-                    ReturnCode = BehaviorReturnCode.Failure;
-                    return ReturnCode;
+                    return Failure();
                 }
             }
 
             _selections = 0;
-            ReturnCode = BehaviorReturnCode.Failure;
-            return ReturnCode;
+            return Failure();
         }
-
-
     }
 }

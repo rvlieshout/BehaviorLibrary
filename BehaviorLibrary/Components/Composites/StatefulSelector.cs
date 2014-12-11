@@ -1,59 +1,59 @@
-using System;
-using BehaviorLibrary.Components;
-
 namespace BehaviorLibrary
 {
-	public class StatefulSelector : BehaviorComponent
-	{
-		private BehaviorComponent[] _Behaviors;
+    using System;
+    using System.Diagnostics;
+    using Components;
 
-		private int _LastBehavior = 0;
+    public class StatefulSelector : BehaviorComponent
+    {
+        private readonly BehaviorComponent[] behaviors;
 
-		/// <summary>
-		/// Selects among the given behavior components (stateful on running) 
-		/// Performs an OR-Like behavior and will "fail-over" to each successive component until Success is reached or Failure is certain
-		/// -Returns Success if a behavior component returns Success
-		/// -Returns Running if a behavior component returns Running
-		/// -Returns Failure if all behavior components returned Failure
-		/// </summary>
-		/// <param name="behaviors">one to many behavior components</param>
-		public StatefulSelector(params BehaviorComponent[] behaviors){
-			this._Behaviors = behaviors;
-		}
+        private int lastBehavior;
 
-		/// <summary>
-		/// performs the given behavior
-		/// </summary>
-		/// <returns>the behaviors return code</returns>
-		public override BehaviorReturnCode Behave(){
+        /// <summary>
+        /// Selects among the given behavior components (stateful on running) 
+        /// Performs an OR-Like behavior and will "fail-over" to each successive component until Success is reached or Failure is certain
+        /// -Returns Success if a behavior component returns Success
+        /// -Returns Running if a behavior component returns Running
+        /// -Returns Failure if all behavior components returned Failure
+        /// </summary>
+        /// <param name="behaviors">one to many behavior components</param>
+        public StatefulSelector(params BehaviorComponent[] behaviors)
+        {
+            this.behaviors = behaviors;
+        }
 
-			for(; _LastBehavior < _Behaviors.Length; _LastBehavior++){
-				try{
-					switch (_Behaviors[_LastBehavior].Behave()){
-					case BehaviorReturnCode.Failure:
-						continue;
-					case BehaviorReturnCode.Success:
-						_LastBehavior = 0;
-						ReturnCode = BehaviorReturnCode.Success;
-						return ReturnCode;
-					case BehaviorReturnCode.Running:
-						ReturnCode = BehaviorReturnCode.Running;
-						return ReturnCode;
-					default:
-						continue;
-					}
-				}
-				catch (Exception e){
-#if DEBUG
-					Console.Error.WriteLine(e.ToString());
-#endif
-					continue;
-				}
-			}
+        /// <summary>
+        /// performs the given behavior
+        /// </summary>
+        /// <returns>the behaviors return code</returns>
+        public override BehaviorReturnCode Behave()
+        {
+            for (; lastBehavior < behaviors.Length; lastBehavior++)
+            {
+                try
+                {
+                    switch (behaviors[lastBehavior].Behave())
+                    {
+                        case BehaviorReturnCode.Failure:
+                            continue;
+                        case BehaviorReturnCode.Success:
+                            lastBehavior = 0;
+                            return Success();
+                        case BehaviorReturnCode.Running:
+                            return Running();
+                        default:
+                            continue;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.ToString());
+                }
+            }
 
-			_LastBehavior = 0;
-			ReturnCode = BehaviorReturnCode.Failure;
-			return ReturnCode;
-		}
-	}
+            lastBehavior = 0;
+            return Failure();
+        }
+    }
 }

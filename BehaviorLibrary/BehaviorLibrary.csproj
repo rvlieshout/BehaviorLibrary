@@ -51,9 +51,6 @@
     <Compile Include="Components\Decorators\Inverter.cs" />
     <Compile Include="Components\Decorators\RandomDecorator.cs" />
     <Compile Include="Components\Decorators\Timer.cs" />
-    <Compile Include="Components\Utility\UtilityPair.cs" />
-    <Compile Include="Components\Utility\UtilitySelector.cs" />
-    <Compile Include="Components\Utility\UtilityVector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Components\Composites\PartialSelector.cs" />
     <Compile Include="Components\Composites\PartialSequence.cs" />
