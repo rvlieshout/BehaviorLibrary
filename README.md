@@ -29,12 +29,12 @@ It is simple to use and with that simplicity comes performance.
 Example of a simple A* following AI on a tilemap
 
 	//setup all coniditionals and their delegate functions
-	Coniditional tooClose = new Conditional(isTooClose);
-	Coniditional targetMoved = new Conditional(hasTargetMoved);
-	Coniditional pathFound = new Conditional(hasPathBeenFound);
-	Coniditional reachedCell = new Conditional(hasReachedCell);
-	Coniditional reachedTarget = new Conditional(hasReachedTarget);
-	Coniditional isNewPath = new Conditional(hasNewPath);
+	Conditional tooClose = new Conditional(isTooClose);
+	Conditional targetMoved = new Conditional(hasTargetMoved);
+	Conditional pathFound = new Conditional(hasPathBeenFound);
+	Conditional reachedCell = new Conditional(hasReachedCell);
+	Conditional reachedTarget = new Conditional(hasReachedTarget);
+	Conditional isNewPath = new Conditional(hasNewPath);
 
 	//setup all actions and their delegate functions
 	BehaviorAction moveToCell = new BehaviorAction(moveTowardsCell);
