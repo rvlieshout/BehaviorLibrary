@@ -35,7 +35,7 @@ namespace BehaviorLibrary.Components.Composites
 
             try
             {
-                switch (_Behaviors[_Random.Next(0, _Behaviors.Length - 1)].Behave())
+                switch (_Behaviors[_Random.Next(0, _Behaviors.Length)].Behave())
                 {
                     case BehaviorReturnCode.Failure:
                         ReturnCode = BehaviorReturnCode.Failure;
