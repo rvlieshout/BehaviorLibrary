@@ -76,7 +76,7 @@ namespace Tests
 
 			_log.logMessage ("1:" + counts[0] +", 2:" + counts[1]+ ", 3:" + counts[2]+ ", 4:" + counts [3]);
 
-			Verify.VerifyTrue ("verify last component actioned", true, counts [2] > 0);
+			Verify.VerifyTrue ("verify last component actioned", true, counts [3] > 0);
 
 			_log.exitScope ();
 		}
