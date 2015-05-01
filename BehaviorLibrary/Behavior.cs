@@ -15,7 +15,7 @@ namespace BehaviorLibrary
     public delegate BehaviorReturnCode BehaviorReturn();
 
     /// <summary>
-    /// 
+    /// Owner of a behavior tree.
     /// </summary>
     public class Behavior
     {
