@@ -24,7 +24,7 @@ namespace BehaviorLibrary
         public BehaviorReturnCode ReturnCode { get; private set; }
 
         /// <summary>
-        /// 
+        /// Tree starts with an index.
         /// </summary>
         /// <param name="root"></param>
         public Behavior(IndexSelector root)
