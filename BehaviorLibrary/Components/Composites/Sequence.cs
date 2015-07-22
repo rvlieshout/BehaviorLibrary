@@ -1,4 +1,4 @@
-﻿namespace BehaviorLibrary.Components.Composites
+﻿namespace BehaviorLibrary
 {
     using System;
     using System.Diagnostics;

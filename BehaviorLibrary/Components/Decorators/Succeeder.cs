@@ -1,4 +1,4 @@
-namespace BehaviorLibrary.Components.Decorators
+namespace BehaviorLibrary
 {
     public class Succeeder : BehaviorComponent
     {

@@ -1,9 +1,8 @@
+// ReSharper disable MemberCanBePrivate.Global
 namespace BehaviorLibrary
 {
     using System;
     using System.Diagnostics;
-    using Components;
-    using Components.Composites;
 
     public enum BehaviorReturnCode
     {

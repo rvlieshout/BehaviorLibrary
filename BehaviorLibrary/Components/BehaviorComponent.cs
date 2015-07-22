@@ -1,4 +1,4 @@
-﻿namespace BehaviorLibrary.Components
+﻿namespace BehaviorLibrary
 {
     public abstract class BehaviorComponent
     {

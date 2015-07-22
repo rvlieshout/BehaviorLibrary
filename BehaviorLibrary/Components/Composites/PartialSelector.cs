@@ -1,4 +1,4 @@
-﻿namespace BehaviorLibrary.Components.Composites
+﻿namespace BehaviorLibrary
 {
     using System;
     using System.Diagnostics;
@@ -7,9 +7,9 @@
     {
         private readonly BehaviorComponent[] behaviors;
 
-        private short _selections;
+        private short selections;
 
-        private readonly short _selLength;
+        private readonly short selLength;
 
         /// <summary>
         /// Selects among the given behavior components (one evaluation per Behave call)
@@ -25,7 +25,7 @@
         public PartialSelector(params BehaviorComponent[] behaviors)
         {
             this.behaviors = behaviors;
-            _selLength = (short) this.behaviors.Length;
+            selLength = (short) this.behaviors.Length;
         }
 
         /// <summary>
@@ -34,34 +34,34 @@
         /// <returns>the behaviors return code</returns>
         public override BehaviorReturnCode Behave()
         {
-            while (_selections < _selLength)
+            while (selections < selLength)
             {
                 try
                 {
-                    switch (behaviors[_selections].Behave())
+                    switch (behaviors[selections].Behave())
                     {
                         case BehaviorReturnCode.Failure:
-                            _selections++;
+                            selections++;
                             return Running();
                         case BehaviorReturnCode.Success:
-                            _selections = 0;
+                            selections = 0;
                             return Success();
                         case BehaviorReturnCode.Running:
                             return Running();
                         default:
-                            _selections++;
+                            selections++;
                             return Failure();
                     }
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.ToString());
-                    _selections++;
+                    selections++;
                     return Failure();
                 }
             }
 
-            _selections = 0;
+            selections = 0;
             return Failure();
         }
     }

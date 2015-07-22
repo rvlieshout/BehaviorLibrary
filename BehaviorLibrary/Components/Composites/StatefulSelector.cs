@@ -2,7 +2,6 @@ namespace BehaviorLibrary
 {
     using System;
     using System.Diagnostics;
-    using Components;
 
     public class StatefulSelector : BehaviorComponent
     {

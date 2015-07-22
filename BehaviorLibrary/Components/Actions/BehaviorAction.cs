@@ -1,6 +1,7 @@
-﻿namespace BehaviorLibrary.Components.Actions
+﻿namespace BehaviorLibrary
 {
     using System;
+    using System.Diagnostics;
 
     public class BehaviorAction : BehaviorComponent
     {
@@ -19,9 +20,7 @@
             }
             catch (Exception e)
             {
-#if DEBUG
-                Console.Error.WriteLine(e.ToString());
-#endif
+                Debug.WriteLine(e.ToString());
                 return Failure();
             }
         }
