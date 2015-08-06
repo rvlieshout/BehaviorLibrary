@@ -4,6 +4,9 @@ namespace BehaviorLibrary
     using System;
     using System.Diagnostics;
 
+    /// <summary>
+    /// A BehaviorReturnCode describes the possible outcomes of a call to <see cref="Behavior.Behave"/>.
+    /// </summary>
     public enum BehaviorReturnCode
     {
         Failure,
@@ -14,7 +17,7 @@ namespace BehaviorLibrary
     public delegate BehaviorReturnCode BehaviorReturn();
 
     /// <summary>
-    /// Owner of a behavior tree.
+    /// Behavior is the owner of a behavior tree.
     /// </summary>
     public class Behavior
     {
